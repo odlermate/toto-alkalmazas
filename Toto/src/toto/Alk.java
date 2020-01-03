@@ -43,7 +43,7 @@ public class Alk
          osszegek.add(sor[11]);
          osszegek.add(sor[13]);
          //Megszámolom meg hányszor nyertek a csapatok és lett döntetlen.
-            for (int j = 14; j < 28; j++) 
+            for (int j = 14; j < 28; j++)//14.-elemtől a 28-ig vannak az eredmények. 
             {
                 if(sor[j].equals("x") || sor[j].equals("X") || sor[j].equals("+x") || sor[j].equals("+X"))
                 {
@@ -74,8 +74,8 @@ public class Alk
             
         }
         //Kiiratom a legnagyobb nyereményt amit valaha rögzítettek.
-        System.out.println("A legnagyobb nyeremeny amit rogzitettek: " + maxossz.replaceFirst(" ", ",").replaceFirst((" "), (",")));
-        //Kimatematikázom hányszor %-ban lett döntetlen, első csapat bagy második csapat győzelme.
+        System.out.println("A legnagyobb nyeremeny amit rogzitettek: " + maxossz.replace(" ", ",").replace(",Ft", " Ft"));
+        //Kimatematikázom hány %-ban lett döntetlen, első csapat bagy második csapat győzelme.
         double x = xcount + onecount + twocount;
         double xszazalek = xcount / x * 100;
         double oneszazalek = onecount / x * 100;
@@ -101,20 +101,28 @@ public class Alk
                 for (int j = 14; j < 28; j++) 
                 {
                     eredmenyek.add(sor[j]);
-                    nyeremenyek.add(sor[5]); //0. elem: 14-es találat
-                    nyeremenyek.add(sor[7]); //1. elem: 13-as találat
-                    nyeremenyek.add(sor[9]); //2. elem: 12-es találat
-                    nyeremenyek.add(sor[11]); //3. elem: 11-es találat
-                    nyeremenyek.add(sor[13]); //4. elem: 10-es találat
                 }
+                nyeremenyek.add(sor[5]); //0. elem: 14-es találat
+                nyeremenyek.add(sor[7]); //1. elem: 13-as találat
+                nyeremenyek.add(sor[9]); //2. elem: 12-es találat
+                nyeremenyek.add(sor[11]); //3. elem: 11-es találat
+                nyeremenyek.add(sor[13]); //4. elem: 10-es találat
             }
         }
         if(hiba.equals(true))
         {
             System.out.println("Rossz dátumot adtál meg!");
+            return;
         }
+        Boolean hiba2 = false;
         String[] tippek = tipp.split("");
         int talalatok = 0;
+        int hiba3 = tippek.length;
+        if(hiba3 != 14)
+        {
+            System.out.println("Rossz eredményeket adtál meg!");
+            return;
+        }
         for (int i = 0; i < 14; i++) 
         {
             if(eredmenyek.get(i).equals(tippek[i]))
@@ -137,6 +145,15 @@ public class Alk
             {
                 talalatok++;
             }
+            if(!tippek[i].equals("1") && !tippek[i].equals("2") && !tippek[i].equals("X"))
+            {
+                hiba2 = true;
+            }
+        }
+        if(hiba2.equals(true))
+        {
+            System.out.println("Rossz eredményeket adtál meg!");
+            return;
         }
         String nyeremeny = "";
         if(talalatok == 14)
